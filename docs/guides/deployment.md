@@ -105,6 +105,19 @@ Redis 8 can read the tested Redis 7 append-only snapshot format. Preserve a copy
 
 ## Build from source
 
+On the fork's `deploy/dockhand` branch, the standard Compose file builds
+`riviamigo:local` directly. This deployment-only configuration is kept separate
+from the upstream fix branch.
+
+For Dockhand Git deployments, select `deploy/dockhand`, keep the Compose path
+as `compose/docker-compose.yml`, set **Context directory** to `.` so the full
+repository is available, and enable **Build images on deploy**. Disable
+**Re-pull images** for this local-image deployment. Keep the existing stack
+name, environment settings, and storage sources. Before changing the context
+directory, verify that all storage bind mounts still resolve to their existing
+host paths; use absolute storage paths to avoid moving the database accidentally.
+Deployment output must show a Docker build, not only an image pull.
+
 ```bash
 docker compose --env-file .env -f compose/docker-compose.yml -f compose/docker-compose.build.yml up -d --build
 ```

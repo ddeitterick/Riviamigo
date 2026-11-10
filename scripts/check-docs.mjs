@@ -399,7 +399,10 @@ function checkProductionDeploymentContract() {
 
   for (const requiredSnippet of [
     '"${RIVIAMIGO_HOST_BIND_ADDRESS:-127.0.0.1}:${RIVIAMIGO_ORIGIN_PORT:-8080}:8080"',
-    "ghcr.io/bballdavis}/riviamigo:${IMAGE_TAG:-latest}",
+    "image: riviamigo:local",
+    "    build:",
+    "      context: ..",
+    "      dockerfile: compose/Dockerfile",
     "RIVIAMIGO_DB_SOURCE",
     "RIVIAMIGO_BACKUPS_SOURCE",
     "RIVIAMIGO_CACHE_SOURCE",
@@ -421,10 +424,6 @@ function checkProductionDeploymentContract() {
     if (!buildCompose.includes(requiredSnippet)) {
       fail(`build overlay is missing required source-build contract: ${requiredSnippet}`);
     }
-  }
-
-  if (productionCompose.includes("build:")) {
-    fail("standard Compose must pull published images instead of defining build contexts");
   }
 
   for (const requiredSnippet of ["http://127.0.0.1:3001", "listen 8080;"]) {

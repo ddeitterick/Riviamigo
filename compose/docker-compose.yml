@@ -1,6 +1,9 @@
 services:
   riviamigo:
-    image: ${RIVIAMIGO_IMAGE:-${RIVIAMIGO_IMAGE_REGISTRY:-ghcr.io/bballdavis}/riviamigo:${IMAGE_TAG:-latest}}
+    image: riviamigo:local
+    build:
+      context: ..
+      dockerfile: compose/Dockerfile
     restart: unless-stopped
     env_file:
       - ${RIVIAMIGO_ENV_FILE:-../.env}
